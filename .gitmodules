@@ -1,0 +1,3 @@
+[submodule "server"]
+	path = server
+	url = https://github.com/bhargav-2112/redux-thunk.git
