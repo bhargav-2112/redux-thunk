@@ -1,0 +1,15 @@
+Authentication Flow : 
+ 
+Registration
+ -Generate ID and token
+Email Verification
+delete token
+Login
+
+Password Reset Flow
+Enter email
+send id and token to email
+verify ID and token
+Send new password
+Done with password reset
+delete token
