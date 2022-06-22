@@ -1,12 +1,18 @@
-import React, { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from 'react-router-dom';
+/* eslint-disable react/button-has-type */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable consistent-return */
+import React, { useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, Link } from 'react-router-dom';
 
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+import Form from 'react-validation/build/form';
+import Input from 'react-validation/build/input';
+import CheckButton from 'react-validation/build/button';
 
-import { login } from "../actions/auth";
+import { login } from '../actions/auth';
 
 const required = (value) => {
   if (!value) {
@@ -18,25 +24,26 @@ const required = (value) => {
   }
 };
 
-const Login = (props) => {
+function Login(props) {
   const form = useRef();
   const checkBtn = useRef();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { isLoggedIn } = useSelector(state => state.auth);
-  const { message } = useSelector(state => state.message);
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
   const onChangeUsername = (e) => {
+    // eslint-disable-next-line no-shadow
     const username = e.target.value;
     setUsername(username);
   };
 
   const onChangePassword = (e) => {
+    // eslint-disable-next-line no-shadow
     const password = e.target.value;
     setPassword(password);
   };
@@ -51,7 +58,8 @@ const Login = (props) => {
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(login(username, password))
         .then(() => {
-          props.history.push("/profile");
+          // eslint-disable-next-line react/destructuring-assignment
+          props.history.push('/profile');
           window.location.reload();
         })
         .catch(() => {
@@ -103,24 +111,19 @@ const Login = (props) => {
           <div className="form-group">
             <button className="btn btn-primary btn-block" disabled={loading}>
               {loading && (
-                <span className="spinner-border spinner-border-sm"></span>
+                <span className="spinner-border spinner-border-sm" />
               )}
               <span>Login</span>
             </button>
+            <Link to="/forgot-password" style={{ marginLeft: '5px' }}>
+              <span>Forgot Password?</span>
+            </Link>
           </div>
-
-          {message && (
-            <div className="form-group">
-              <div className="alert alert-danger" role="alert">
-                {message}
-              </div>
-            </div>
-          )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
+          <CheckButton style={{ display: 'none' }} ref={checkBtn} />
         </Form>
       </div>
     </div>
   );
-};
+}
 
 export default Login;
