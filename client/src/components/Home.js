@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
-import UserService from "../services/user.service";
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable no-underscore-dangle */
+import React, { useState, useEffect } from 'react';
+import UserService from '../services/user.service';
 
-const Home = () => {
-  const [content, setContent] = useState("");
+function Home() {
+  const [content, setContent] = useState('');
   useEffect(() => {
     UserService.getPublicContent().then(
       (response) => {
         setContent(response.data);
       },
       (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
+        const _content = (error.response && error.response.data)
+          || error.message
+          || error.toString();
         setContent(_content);
-      }
+      },
     );
   }, []);
   return (
@@ -24,5 +25,5 @@ const Home = () => {
       </header>
     </div>
   );
-};
+}
 export default Home;

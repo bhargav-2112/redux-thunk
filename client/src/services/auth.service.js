@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api/auth/';
+const PASSPORT_URL = 'http://localhost:8080/auth/';
 
 const register = (username, email, password) => axios.post(`${API_URL}signup`, {
   username,
@@ -14,6 +15,14 @@ const login = (username, password) => axios.post(`${API_URL}signin`, {
 }).then((response) => {
   if (response.data.accessToken) {
     localStorage.setItem('user', JSON.stringify(response.data));
+  }
+  return response.data;
+});
+
+const GoogleLogin = () => axios.get(`${PASSPORT_URL}login/success`).then((response) => {
+  console.log('in the authservice', response.user);
+  if (response.user) {
+    localStorage.setItem('user', JSON.stringify(response.user));
   }
   return response.data;
 });
@@ -36,4 +45,5 @@ export default {
   logout,
   reset,
   newPassword,
+  GoogleLogin,
 };

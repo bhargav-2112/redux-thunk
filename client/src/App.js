@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable quotes */
@@ -26,6 +27,33 @@ function App() {
   const [showAdminBoard, setShowAdminBoard] = useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const getUser = () => {
+      fetch("http://localhost:8080/auth/login/success", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+      })
+        .then((response) => {
+          if (response.status === 200) return response.json();
+          throw new Error("authentication has been failed!");
+        })
+        .then((resObject) => {
+          setUser(resObject.user);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getUser();
+  }, []);
+  console.log('user', user);
 
   useEffect(() => {
     // eslint-disable-next-line no-unused-vars
@@ -113,11 +141,11 @@ function App() {
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/profile" element={<Profile />} />
-            <Route path="/user" element={<BoardUser />} />
-            <Route path="/mod" element={<BoardModerator />} />
-            <Route path="/admin" element={<BoardAdmin />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/new-password" element={<NewPassword />} />
+            <Route exact path="/user" element={<BoardUser />} />
+            <Route exact path="/mod" element={<BoardModerator />} />
+            <Route exact path="/admin" element={<BoardAdmin />} />
+            <Route exact path="/forgot-password" element={<ForgotPassword />} />
+            <Route exact path="/new-password" element={<NewPassword />} />
           </Routes>
         </div>
       </div>
